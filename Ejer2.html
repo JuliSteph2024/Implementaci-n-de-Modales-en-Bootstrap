@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Control Selectivo - Evaluación de Edad</title>
+    <link href="bootstrap/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Control Selectivo - Evaluación de Edad</h2>
+        <button class="btn btn-primary" id="openModalButton">Validar Edad</button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="edadModal" tabindex="-1" aria-labelledby="edadModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="edadModalLabel">Ingrese su Edad</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEdad">
+                        <div class="mb-3">
+                            <label for="edad" class="form-label">Edad:</label>
+                            <input type="number" class="form-control" id="edad" placeholder="Ingresa tu edad" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Validar</button>
+                    </form>
+                    <div class="mt-3" id="resultadoEdad"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        const openModalButton = document.getElementById('openModalButton');
+        const form = document.getElementById('formEdad');
+        const resultadoEdad = document.getElementById('resultadoEdad');
+
+        openModalButton.addEventListener('click', () => {
+            const modal = new bootstrap.Modal(document.getElementById('edadModal'));
+            modal.show();
+        });
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const edad = parseInt(document.getElementById('edad').value);
+
+            if (isNaN(edad) || edad < 0) {
+                alert('Por favor ingrese una edad válida.');
+                return;
+            }
+
+            resultadoEdad.textContent = (edad >= 18) ? 'Eres mayor de edad.' : 'Eres menor de edad.';
+        });
+    </script>
+</body>
+</html>

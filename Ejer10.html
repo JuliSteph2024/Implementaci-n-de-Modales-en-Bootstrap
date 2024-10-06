@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Descuentos según Tipo de Cliente: General y Afiliado</title>
+    <link href="bootstrap/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Descuentos según Tipo de Cliente: General y Afiliado</h2>
+        <button class="btn btn-primary" id="openModalButton">Calcular Descuento</button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="clienteModal" tabindex="-1" aria-labelledby="clienteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="clienteModalLabel">Ingrese los Datos del Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formCliente">
+                        <div class="mb-3">
+                            <label for="tipoCliente" class="form-label">Tipo de Cliente:</label>
+                            <select class="form-select" id="tipoCliente" required>
+                                <option value="">Selecciona un tipo de cliente</option>
+                                <option value="G">Cliente General (G)</option>
+                                <option value="A">Cliente Afiliado (A)</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="monto" class="form-label">Monto de la Compra (S/.):</label>
+                            <input type="number" class="form-control" id="monto" placeholder="Ingresa el monto" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formaPago" class="form-label">Forma de Pago:</label>
+                            <select class="form-select" id="formaPago" required>
+                                <option value="">Selecciona una forma de pago</option>
+                                <option value="C">Al Contado (C)</option>
+                                <option value="P">En Plazos (P)</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Calcular Total</button>
+                    </form>
+                    <div class="mt-3" id="resultadoCliente"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        const openModalButton = document.getElementById('openModalButton');
+        const formCliente = document.getElementById('formCliente');
+        const resultadoCliente = document.getElementById('resultadoCliente');
+
+        openModalButton.addEventListener('click', () => {
+            const modal = new bootstrap.Modal(document.getElementById('clienteModal'));
+            modal.show();
+        });
+
+        formCliente.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const tipoCliente = document.getElementById('tipoCliente').value;
+            const monto = parseFloat(document.getElementById('monto').value);
+            const formaPago = document.getElementById('formaPago').value;
+
+            let descuento = 0;
+            if (tipoCliente === 'G') {
+                descuento = formaPago === 'C' ? monto * 0.15 : monto * 0.10;
+            } else if (tipoCliente === 'A') {
+                descuento = formaPago === 'C' ? monto * 0.20 : monto * 0.05;
+            }
+
+            const totalPagar = monto - descuento;
+
+            resultadoCliente.textContent = `Descuento: S/. ${descuento.toFixed(2)}\nTotal a Pagar: S/. ${totalPagar.toFixed(2)}`;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Selectivo - Evaluación de Edad</title>
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Evaluación de Edad</h2>
+        <form id="formEdad">
+            <div class="mb-3">
+                <label for="edad" class="form-label">Edad:</label>
+                <input type="number" class="form-control" id="edad" placeholder="Ingresa tu edad" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Validar</button>
+        </form>
+        <div class="alert alert-info mt-3 d-none" id="validar"></div>
+    </div>
+
+    <script src="js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+
+    <script>
+        // Selección de elementos de DOM
+        const form = document.getElementById('formEdad');
+        const validarDiv = document.getElementById('validar');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const edad = parseInt(document.getElementById('edad').value);
+
+            if (isNaN(edad) || edad < 0) {
+                alert('Por favor ingrese una edad válida.');
+                return;
+            }
+            
+            if (edad >= 18) {
+                validarDiv.textContent = `Usted es mayor de edad.`;
+                validarDiv.className = 'alert alert-success mt-3'; // Cambiar a clase de éxito
+            } else {
+                validarDiv.textContent = `Usted es menor de edad.`;
+                validarDiv.className = 'alert alert-warning mt-3'; // Cambiar a clase de advertencia
+            }
+
+            validarDiv.classList.remove('d-none');
+        });
+    </script>
+</body>
+</html>
